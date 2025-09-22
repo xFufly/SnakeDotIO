@@ -16,7 +16,7 @@ if (array_key_exists('action', $_GET)) {
     $email = $conn->real_escape_string($_POST["email"]);
     $user = $_POST["name"];
     $first_name = $_POST["first_name"];
-    $pass = password_hash($_POST["password"], PASSWORD_BCRYPT);
+    $pass = $_POST["password"];
     $sql = "INSERT INTO user (name, first_name, email, password) VALUES ('$user', '$first_name', '$email', '$pass')";
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
