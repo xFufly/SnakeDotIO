@@ -1,9 +1,9 @@
 <?php
 
-if ($_POST["username"] && $_POST["password"] && $_POST["email"]) {
+if (array_key_exists('action', $_GET)) {
     // Database configuration
     $servername = "localhost";
-    $username = "admin";
+    $username = "root";
     $password = "";
 
     $dbname = "snakeIo";
@@ -14,9 +14,10 @@ if ($_POST["username"] && $_POST["password"] && $_POST["email"]) {
         die("Connection failed: " . $conn->connect_error);
     }
     $email = $conn->real_escape_string($_POST["email"]);
-    $user = $_POST["username"];
+    $user = $_POST["name"];
+    $first_name = $_POST["first_name"];
     $pass = password_hash($_POST["password"], PASSWORD_BCRYPT);
-    $sql = "INSERT INTO users (username, password, email) VALUES ('$user', '$pass', '$email')";
+    $sql = "INSERT INTO user (name, first_name, email, password) VALUES ('$user', '$first_name', '$email', '$pass')";
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
@@ -37,10 +38,11 @@ if ($_POST["username"] && $_POST["password"] && $_POST["email"]) {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <form action="signup.php" method="POST" class="form-container">
+    <form action="signup.php?action=signup" method="POST" class="form-container">
         <h2>Sign Up</h2>
         <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="first_name" placeholder="First Name" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Sign Up</button>
         <p>Already have an account? <a href="login.php">Login here</a></p>
