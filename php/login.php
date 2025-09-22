@@ -18,7 +18,11 @@ if (array_key_exists('action', $_GET)) {
     $sql = "SELECT email, password FROM user WHERE email = '$email' AND password = '$pass'";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
-        echo "Connect successfully";
+        // Session start and set user as logged in
+        session_start();
+        $_SESSION["user_id"] = $email;
+        header("Location: index.php");
+        exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
